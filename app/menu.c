@@ -298,6 +298,12 @@ int MENU_GetLimits(uint8_t menu_id, int32_t *pMin, int32_t *pMax)
 			*pMax = MR_CHANNEL_LAST;
 			break;
 
+		case MENU_SLIST1:
+		case MENU_SLIST2:
+			*pMin = -1;
+			*pMax = MR_CHANNEL_LAST;
+			break;
+
 		case MENU_SAVE:
 			*pMin = 0;
 			*pMax = ARRAY_SIZE(gSubMenu_SAVE) - 1;
@@ -308,7 +314,11 @@ int MENU_GetLimits(uint8_t menu_id, int32_t *pMin, int32_t *pMax)
 			*pMax = 4;
 			break;
 
-			
+		case MENU_S_LIST:
+			*pMin = 0;
+			*pMax = 4;
+			break;
+
 #ifdef ENABLE_DTMF_CALLING
 		case MENU_D_RSP:
 			*pMin = 0;
@@ -676,6 +686,10 @@ void MENU_AcceptSetting(void)
 
 		case MENU_1_CALL:
 			gEeprom.CHAN_1_CALL = gSubMenuSelection;
+			break;
+
+		case MENU_S_LIST:
+			gEeprom.SCAN_LIST_DEFAULT = gSubMenuSelection;
 			break;
 
 		#ifdef ENABLE_ALARM
@@ -1075,6 +1089,18 @@ void MENU_ShowCurrentSetting(void)
 
 		case MENU_1_CALL:
 			gSubMenuSelection = gEeprom.CHAN_1_CALL;
+			break;
+
+		case MENU_S_LIST:
+			gSubMenuSelection = gEeprom.SCAN_LIST_DEFAULT;
+			break;
+
+		case MENU_SLIST1:
+			gSubMenuSelection = RADIO_FindNextChannel(0, 1, true, 0);
+			break;
+
+		case MENU_SLIST2:
+			gSubMenuSelection = RADIO_FindNextChannel(0, 1, true, 1);
 			break;
 
 		#ifdef ENABLE_ALARM
@@ -1794,6 +1820,13 @@ static void MENU_Key_UP_DOWN(bool bKeyPressed, bool bKeyHeld, int8_t Direction)
 		case MENU_1_CALL:
 		case MENU_MEM_NAME:
 			bCheckScanList = false;
+			break;
+
+		case MENU_SLIST2:
+			VFO = 1;
+			[[fallthrough]];
+		case MENU_SLIST1:
+			bCheckScanList = true;
 			break;
 
 		default:

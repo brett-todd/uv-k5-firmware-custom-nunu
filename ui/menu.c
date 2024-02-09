@@ -64,7 +64,10 @@ const t_menu_item MenuList[] =
 	{"ScAdd2", VOICE_ID_INVALID,                       MENU_S_ADD2        },
 	{"ChSave", VOICE_ID_MEMORY_CHANNEL,                MENU_MEM_CH        }, // was "MEM-CH"
 	{"ChDele", VOICE_ID_DELETE_CHANNEL,                MENU_DEL_CH        }, // was "DEL-CH"
-	{"ChName", VOICE_ID_INVALID,                       MENU_MEM_NAME      },	
+	{"ChName", VOICE_ID_INVALID,                       MENU_MEM_NAME      },
+	{"SList",  VOICE_ID_INVALID,                       MENU_S_LIST        },
+	{"SList1", VOICE_ID_INVALID,                       MENU_SLIST1        },
+	{"SList2", VOICE_ID_INVALID,                       MENU_SLIST2        },
 	{"ScnRev", VOICE_ID_INVALID,                       MENU_SC_REV        },
 #ifdef ENABLE_NOAA
 	{"NOAA-S", VOICE_ID_INVALID,                       MENU_NOAA_S        },
@@ -811,6 +814,26 @@ void UI_DisplayMenu(void)
 				strcpy(String, gSubMenu_MDF[gSubMenuSelection]);
 				break;
 
+			case MENU_S_LIST:
+				switch (gSubMenuSelection)
+				{
+					case 0:
+						strcpy(String, "LIST1");
+						break;
+					case 1:
+						strcpy(String, "LIST2");
+						break;
+					case 2:
+						strcpy(String, "ALL\nCHANNELS");
+						break;
+					case 3:
+						strcpy(String, "ALL\nLISTS");
+						break;
+					default:
+						break;
+				}
+				break;
+
 			#ifdef ENABLE_ALARM
 				case MENU_AL_MOD:
 					sprintf(String, gSubMenu_AL_MOD[gSubMenuSelection]);
@@ -970,6 +993,42 @@ void UI_DisplayMenu(void)
 					i++;
 
 				y += small ? 1 : 2;
+			}
+		}
+	}
+
+	if (UI_MENU_GetCurrentMenuId() == MENU_SLIST1 || UI_MENU_GetCurrentMenuId() == MENU_SLIST2)
+	{
+		i = (UI_MENU_GetCurrentMenuId() == MENU_SLIST1) ? 0 : 1;
+		char *pPrintStr = String;
+
+		if (gSubMenuSelection < 0) {
+			pPrintStr = "NULL";
+		} else {
+			UI_GenerateChannelStringEx(String, true, gSubMenuSelection);
+			pPrintStr = String;
+		}
+
+		// channel number
+		UI_PrintString(pPrintStr, menu_item_x1, menu_item_x2, 0, 8);
+
+		SETTINGS_FetchChannelName(String, gSubMenuSelection);
+		pPrintStr = String[0] ? String : "--";
+
+		// channel name and scan-list
+		if (gSubMenuSelection < 0 || !gEeprom.SCAN_LIST_ENABLED[i]) {
+			UI_PrintString(pPrintStr, menu_item_x1, menu_item_x2, 2, 8);
+		} else {
+			UI_PrintStringSmallNormal(pPrintStr, menu_item_x1, menu_item_x2, 2);
+
+			if (IS_MR_CHANNEL(gEeprom.SCANLIST_PRIORITY_CH1[i])) {
+				sprintf(String, "PRI%d:%u", 1, gEeprom.SCANLIST_PRIORITY_CH1[i] + 1);
+				UI_PrintString(String, menu_item_x1, menu_item_x2, 3, 8);
+			}
+
+			if (IS_MR_CHANNEL(gEeprom.SCANLIST_PRIORITY_CH2[i])) {
+				sprintf(String, "PRI%d:%u", 2, gEeprom.SCANLIST_PRIORITY_CH2[i] + 1);
+				UI_PrintString(String, menu_item_x1, menu_item_x2, 5, 8);
 			}
 		}
 	}

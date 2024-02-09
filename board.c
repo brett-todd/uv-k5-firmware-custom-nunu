@@ -687,6 +687,7 @@ void BOARD_EEPROM_Init(void)
 	// 0F18..0F1F
 	EEPROM_ReadBuffer(0x0F18, Data, 8);
 //	gEeprom.SCAN_LIST_DEFAULT = (Data[0] < 2) ? Data[0] : false;
+/*
 	gEeprom.SCAN_LIST_DEFAULT = (Data[0] < 3) ? Data[0] : false;  // we now have 'all' channel scan option
 	for (i = 0; i < 2; i++)
 	{
@@ -695,6 +696,19 @@ void BOARD_EEPROM_Init(void)
 		gEeprom.SCANLIST_PRIORITY_CH1[i] =  Data[j + 1];
 		gEeprom.SCANLIST_PRIORITY_CH2[i] =  Data[j + 2];
 	}
+*/
+	// Data[0] <4 contains 0, 1, 2 - One for each 0 = LIST1, 1 = LIST2, 2 = All CHANNELS, 3 = ALL LISTS, 4 = NO LISTS
+	gEeprom.SCAN_LIST_DEFAULT = (Data[0] < 5) ? Data[0] : 2;  // 0 = LIST1, 1 = LIST2, 2 = All CHANNELS, 3 = ALL LISTS, 4 = NO LISTS, Default = 2
+	/*
+	Why would Data[1] or [Data4] be anything other than 0 or 1? - It an on/off bool toggle
+	I can't see anywhere in the code or menus where Priority Scan is implemented
+	*/
+	gEeprom.SCAN_LIST_ENABLED[0]     = (Data[1] < 2) ? Data[1] : false; // Scanlist 1 Priority Channels Scan on/off
+	gEeprom.SCANLIST_PRIORITY_CH1[0] =  Data[2];
+	gEeprom.SCANLIST_PRIORITY_CH2[0] =  Data[3];
+	gEeprom.SCAN_LIST_ENABLED[1]     = (Data[4] < 2) ? Data[4] : false; // Scanlist 2 Priority Channels Scan on/off
+	gEeprom.SCANLIST_PRIORITY_CH1[1] =  Data[5];
+	gEeprom.SCANLIST_PRIORITY_CH2[1] =  Data[6];
 
 	// 0F40..0F47
 	EEPROM_ReadBuffer(0x0F40, Data, 8);

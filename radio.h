@@ -39,6 +39,14 @@ enum {
   BANDWIDTH_NARROWEST = 4U
 };
 
+enum {
+	VAL_SCAN_LIST1        = 0,
+	VAL_SCAN_LIST2        = 1,
+	VAL_SCAN_All_CHANNELS = 2,
+	VAL_SCAN_All_LISTS    = 3,
+	VAL_SCAN_NO_LISTS     = 4
+};
+
 enum PTT_ID_t {
 	PTT_ID_OFF = 0,    // OFF
 	PTT_ID_TX_UP,      // BEGIN OF TX
