@@ -513,7 +513,7 @@ void BOARD_Init(void)
 
 void BOARD_EEPROM_Init(void)
 {
-	unsigned int i;
+	//unsigned int i;
 	uint8_t      Data[16];
 
 	memset(Data, 0, sizeof(Data));
