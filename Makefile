@@ -18,7 +18,7 @@ ENABLE_VOICE                  := 0
 ENABLE_VOX                    := 1
 ENABLE_ALARM                  := 0
 ENABLE_TX1750                 := 0
-ENABLE_PWRON_PASSWORD         := 1
+ENABLE_PWRON_PASSWORD         := 0
 ENABLE_DTMF_CALLING           := 0
 
 # ---- CUSTOM MODS ----
@@ -216,6 +216,7 @@ ifneq (, $(shell $(WHERE) git))
 	endif
 endif
 #VERSION_STRING := 230930b
+#VERSION_STRING := v20.5a
 
 
 ASFLAGS = -c -mcpu=cortex-m0

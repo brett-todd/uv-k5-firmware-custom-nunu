@@ -97,21 +97,21 @@ bool RADIO_CheckValidChannel(uint16_t Channel, bool bCheckScanList, uint8_t VFO)
 	return true;
 */
 
-	if (scanList == VAL_SCAN_All_CHANNELS || !bCheckScanList) // If we're scanning all channels, or don't check if the channel is in a list
+	if (VFO == VAL_SCAN_All_CHANNELS || !bCheckScanList) // If we're scanning all channels, or don't check if the channel is in a list
 		return true;
-	if ((scanList == VAL_SCAN_LIST1 && att.scanlist1) || (scanList == VAL_SCAN_LIST2 && att.scanlist2)) // If the channel is in the current scanList
+	if ((VFO == VAL_SCAN_LIST1 && att.scanlist1) || (VFO == VAL_SCAN_LIST2 && att.scanlist2)) // If the channel is in the current scanList
 		return true;
-	if (scanList == VAL_SCAN_All_LISTS && (att.scanlist1 || att.scanlist2)) // If the channel is in any scanList and we're scanning all lists
+	if (VFO == VAL_SCAN_All_LISTS && (att.scanlist1 || att.scanlist2)) // If the channel is in any scanList and we're scanning all lists
 		return true;
-	if (scanList == VAL_SCAN_NO_LISTS && !att.scanlist1 && !att.scanlist2) // If the channel is not in any scanList and we're scanning no lists
+	if (VFO == VAL_SCAN_NO_LISTS && !att.scanlist1 && !att.scanlist2) // If the channel is not in any scanList and we're scanning no lists
 		return true;
 	return false; // It's not a channel to scan
 
 	// We're not using priority channels, and this checks that the current channel isn't one of the priority channels, but when the
 	// priority channels are called through NextMemChannel(), they set the bCheckScanList to $false, which will be picked up above anyway
 	// Perhaps these don't need to be used now?
-	//const uint8_t PriorityCh1 = gEeprom.SCANLIST_PRIORITY_CH1[scanList];
-	//const uint8_t PriorityCh2 = gEeprom.SCANLIST_PRIORITY_CH2[scanList];
+	//const uint8_t PriorityCh1 = gEeprom.SCANLIST_PRIORITY_CH1[VFO];
+	//const uint8_t PriorityCh2 = gEeprom.SCANLIST_PRIORITY_CH2[VFO];
 	//return PriorityCh1 != channel && PriorityCh2 != channel;
 
 }

@@ -114,7 +114,9 @@ void SETTINGS_SaveSettings(void)
 		State[0] = gEeprom.VOX_DELAY;
 	#endif
 	State[1] = gEeprom.RX_AGC;
-	State[2] = gEeprom.PASSWORD_WRONG_ATTEMPTS;
+	#ifdef ENABLE_PWRON_PASSWORD
+		State[2] = gEeprom.PASSWORD_WRONG_ATTEMPTS;
+	#endif
 	#ifdef ENABLE_MESSENGER
 		State[3] = gEeprom.MESSENGER_CONFIG.__val;
 	#endif

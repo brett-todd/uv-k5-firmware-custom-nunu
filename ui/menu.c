@@ -829,6 +829,9 @@ void UI_DisplayMenu(void)
 					case 3:
 						strcpy(String, "ALL\nLISTS");
 						break;
+					case 4:
+						strcpy(String, "NO\nLISTS");
+						break;
 					default:
 						break;
 				}
@@ -1019,7 +1022,7 @@ void UI_DisplayMenu(void)
 		if (gSubMenuSelection < 0 || !gEeprom.SCAN_LIST_ENABLED[i]) {
 			UI_PrintString(pPrintStr, menu_item_x1, menu_item_x2, 2, 8);
 		} else {
-			UI_PrintStringSmallNormal(pPrintStr, menu_item_x1, menu_item_x2, 2);
+			UI_PrintStringSmall(pPrintStr, menu_item_x1, menu_item_x2, 2);
 
 			if (IS_MR_CHANNEL(gEeprom.SCANLIST_PRIORITY_CH1[i])) {
 				sprintf(String, "PRI%d:%u", 1, gEeprom.SCANLIST_PRIORITY_CH1[i] + 1);
