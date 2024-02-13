@@ -216,7 +216,7 @@ ifneq (, $(shell $(WHERE) git))
 	endif
 endif
 #VERSION_STRING := 230930b
-#VERSION_STRING := v20.5b
+#VERSION_STRING := v20.5c
 
 
 ASFLAGS = -c -mcpu=cortex-m0

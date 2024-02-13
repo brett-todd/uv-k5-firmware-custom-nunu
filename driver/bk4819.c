@@ -248,6 +248,7 @@ void BK4819_SetAGC(bool enable)
 	BK4819_WriteRegister(BK4819_REG_7E, (regVal & ~(1 << 15) & ~(0b111 << 12)) 
 		| (!enable << 15)   // 0  AGC fix mode
 		| (0b100 << 12)       // 3  AGC fix index -> changed to min as experiment
+		//#TODO:
 	);
 
 	// if(enable) {
@@ -313,10 +314,12 @@ void BK4819_InitAGC(const uint8_t agcType, ModulationMode_t modulation)
 		switch(agcType)
 		{	
 			case RX_AGC_SLOW:
-				BK4819_WriteRegister(BK4819_REG_49, (0 << 14) | (50 << 7) | (15 << 0));
+				//BK4819_WriteRegister(BK4819_REG_49, (0 << 14) | (50 << 7) | (15 << 0));
+				BK4819_WriteRegister(BK4819_REG_49, (0 << 14) | (47 << 7) | (15 << 0));
 				break;
 			case RX_AGC_FAST:
-				BK4819_WriteRegister(BK4819_REG_49, (0 << 14) | (50 << 7) | (25 << 0));
+				//BK4819_WriteRegister(BK4819_REG_49, (0 << 14) | (50 << 7) | (25 << 0));
+				BK4819_WriteRegister(BK4819_REG_49, (0 << 14) | (47 << 7) | (25 << 0));
 				break;
 			default:
 				return;
